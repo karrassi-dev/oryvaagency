@@ -1,0 +1,29 @@
+[
+  {
+    "id": "dc2ace33-5e26-4f08-aac9-7663894b87ae",
+    "name": "Test User",
+    "email": "test@example.com",
+    "phone": "+1555000000",
+    "company": "Acme",
+    "message": "This is a test submission for the contact form.",
+    "createdAt": "2026-06-03T17:31:02.547Z"
+  },
+  {
+    "id": "bfdda7fe-c3d4-452b-a802-503245b3fc5b",
+    "name": "hamza",
+    "email": "karrassi.hamza@gmail.com",
+    "phone": "09876543",
+    "company": "helo",
+    "message": "Hello world",
+    "createdAt": "2026-06-03T17:38:40.075Z"
+  },
+  {
+    "id": "6427d82b-aca7-4806-98b2-c531900ee4ec",
+    "name": "Test",
+    "email": "t@t.com",
+    "phone": "",
+    "company": "",
+    "message": "hello world test",
+    "createdAt": "2026-06-03T18:23:08.085Z"
+  }
+]
