@@ -228,6 +228,12 @@
     "formTitle": "Envoyez-nous un message",
     "formDesc": "Remplissez le formulaire ci-dessous et nous vous contacterons dans les 24 heures."
   },
+  "NotFound": {
+    "code": "404",
+    "title": "Page introuvable",
+    "description": "La page que vous recherchez n'existe pas ou a été déplacée.",
+    "cta": "Retour à l'accueil"
+  },
   "Blog": {
     "label": "Blog",
     "metaTitle": "Blog — Ressources pour la Croissance Digitale",

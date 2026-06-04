@@ -34,5 +34,14 @@
     "company": "testLLC",
     "message": "Hello this is a just a test",
     "createdAt": "2026-06-04T16:29:25.498Z"
+  },
+  {
+    "id": "c211af7d-9e15-4eaf-851b-54b80eb49634",
+    "name": "arabic test",
+    "email": "hluxarabic@gmail.com",
+    "phone": "234567890",
+    "company": "kjhgsdhsq",
+    "message": "hello test nez\nsqhdjqsdkhdskqsdqs\ndsqdkqsdkhqhdkhqksdq\nsdqs;:dhjqsdhksqdhkqhsdkhkqhdkqsd\n",
+    "createdAt": "2026-06-04T16:32:14.039Z"
   }
 ]

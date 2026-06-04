@@ -79,9 +79,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: post.title,
       description: post.description,
     },
-    other: {
-      'application/ld+json': JSON.stringify(articleSchema),
-    },
   }
 }
 

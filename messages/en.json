@@ -228,6 +228,12 @@
     "formTitle": "Send us a message",
     "formDesc": "Fill in the form below and we'll be in touch within 24 hours."
   },
+  "NotFound": {
+    "code": "404",
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "cta": "Back to Home"
+  },
   "Blog": {
     "label": "Blog",
     "metaTitle": "Blog — Digital Growth Insights",
