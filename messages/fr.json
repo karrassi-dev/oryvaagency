@@ -12,6 +12,7 @@
   "Navbar": {
     "services": "Services",
     "about": "À propos",
+    "blog": "Blog",
     "contact": "Contact",
     "cta": "Réserver un appel gratuit",
     "openMenu": "Ouvrir le menu",
@@ -32,7 +33,7 @@
     "linkEmail": "hello@oryva.agency",
     "linkBookCall": "Réserver un appel gratuit",
     "copyright": "© {year} Oryva. Tous droits réservés.",
-    "builtWith": "Construit avec Next.js · Conçu pour la croissance"
+    "builtWith": "Réalisé par Oryva · Conçu pour la croissance"
   },
   "Hero": {
     "badge": "L'automatisation IA est disponible",
@@ -226,6 +227,25 @@
     "notReadyDesc": "C'est tout à fait normal. Remplissez simplement le formulaire et dites-nous où vous en êtes. Aucune pression commerciale, jamais.",
     "formTitle": "Envoyez-nous un message",
     "formDesc": "Remplissez le formulaire ci-dessous et nous vous contacterons dans les 24 heures."
+  },
+  "Blog": {
+    "label": "Blog",
+    "metaTitle": "Blog — Ressources pour la Croissance Digitale",
+    "metaDescription": "Articles experts sur le développement web, le SEO, le marketing digital et l'automatisation IA pour les entreprises marocaines.",
+    "heroTitle": "Ressources pour",
+    "heroTitleHighlight": "votre croissance digitale",
+    "heroDesc": "Articles experts sur le développement web, le SEO, le marketing digital et l'automatisation IA — écrits pour les entreprises marocaines.",
+    "searchPlaceholder": "Rechercher des articles...",
+    "allCategories": "Tous",
+    "readMore": "Lire la suite",
+    "minRead": "min de lecture",
+    "noResults": "Aucun article trouvé. Essayez d'ajuster votre recherche.",
+    "tableOfContents": "Table des matières",
+    "share": "Partager :",
+    "copied": "Copié !",
+    "previousPost": "Précédent",
+    "nextPost": "Suivant",
+    "relatedPosts": "Articles connexes"
   },
   "ContactForm": {
     "nameLabel": "Nom complet",

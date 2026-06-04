@@ -12,6 +12,7 @@
   "Navbar": {
     "services": "Services",
     "about": "About",
+    "blog": "Blog",
     "contact": "Contact",
     "cta": "Book a Free Call",
     "openMenu": "Open menu",
@@ -32,7 +33,7 @@
     "linkEmail": "hello@oryva.agency",
     "linkBookCall": "Book a Free Call",
     "copyright": "© {year} Oryva. All rights reserved.",
-    "builtWith": "Built with Next.js · Crafted for growth"
+    "builtWith": "Built by Oryva · Designed for Growth"
   },
   "Hero": {
     "badge": "AI Automation now available",
@@ -226,6 +227,25 @@
     "notReadyDesc": "That's totally fine. Just fill out the form and tell us where you're at. No sales pressure, ever.",
     "formTitle": "Send us a message",
     "formDesc": "Fill in the form below and we'll be in touch within 24 hours."
+  },
+  "Blog": {
+    "label": "Blog",
+    "metaTitle": "Blog — Digital Growth Insights",
+    "metaDescription": "Expert insights on web development, SEO, digital marketing, and AI automation for Moroccan businesses.",
+    "heroTitle": "Insights for",
+    "heroTitleHighlight": "digital growth",
+    "heroDesc": "Expert articles on web development, SEO, digital marketing, and AI automation — written for Moroccan businesses.",
+    "searchPlaceholder": "Search articles...",
+    "allCategories": "All",
+    "readMore": "Read more",
+    "minRead": "min read",
+    "noResults": "No articles found. Try adjusting your search.",
+    "tableOfContents": "Table of Contents",
+    "share": "Share:",
+    "copied": "Copied!",
+    "previousPost": "Previous",
+    "nextPost": "Next",
+    "relatedPosts": "Related Articles"
   },
   "ContactForm": {
     "nameLabel": "Full Name",
