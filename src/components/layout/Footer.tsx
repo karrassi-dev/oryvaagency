@@ -63,7 +63,7 @@ export async function Footer() {
           <div className="md:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4 group w-fit">
               <img
-                src="/images/website/logo-website.png"
+                src="/images/website/logo-transparent.png"
                 alt="Oryva"
                 width={36}
                 height={36}

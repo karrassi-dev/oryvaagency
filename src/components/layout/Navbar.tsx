@@ -48,7 +48,7 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group" aria-label="Oryva home">
           <img
-            src="/images/website/logo-website.png"
+            src="/images/website/logo-transparent.png"
             alt="Oryva"
             width={36}
             height={36}
