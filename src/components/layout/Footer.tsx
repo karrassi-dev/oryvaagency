@@ -62,9 +62,13 @@ export async function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4 group w-fit">
-              <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center group-hover:bg-indigo-500 transition-colors">
-                <span className="text-white font-bold text-sm leading-none">O</span>
-              </div>
+              <img
+                src="/images/website/logo-website.png"
+                alt="Oryva"
+                width={36}
+                height={36}
+                className="rounded-lg"
+              />
               <span className="text-zinc-50 font-semibold text-lg tracking-tight">Oryva</span>
             </Link>
             <p className="text-zinc-400 text-sm leading-relaxed max-w-xs">{t('tagline')}</p>
