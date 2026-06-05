@@ -25,8 +25,12 @@ export async function POST(req: NextRequest) {
 
     const { name, email, phone, company, message } = parsed.data
 
-    // Save to local file (keeps working on localhost)
-    const submission = await saveSubmission(parsed.data)
+    // Save to local file only in development (Vercel filesystem is read-only)
+    let submissionId = crypto.randomUUID()
+    if (process.env.NODE_ENV !== 'production') {
+      const submission = await saveSubmission(parsed.data)
+      submissionId = submission.id
+    }
 
     // Send email via Resend
     await resend.emails.send({
@@ -45,7 +49,7 @@ export async function POST(req: NextRequest) {
       `,
     })
 
-    return NextResponse.json({ success: true, id: submission.id }, { status: 201 })
+    return NextResponse.json({ success: true, id: submissionId }, { status: 201 })
   } catch (err) {
     console.error('[contact] error:', err)
     return NextResponse.json({ error: 'Failed to send message' }, { status: 500 })
