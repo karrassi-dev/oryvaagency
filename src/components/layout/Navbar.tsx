@@ -47,9 +47,13 @@ export function Navbar() {
       <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group" aria-label="Oryva home">
-          <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center group-hover:bg-indigo-500 transition-colors">
-            <span className="text-white font-bold text-sm leading-none">O</span>
-          </div>
+          <img
+            src="/images/website/logo-website.png"
+            alt="Oryva"
+            width={36}
+            height={36}
+            className="rounded-lg"
+          />
           <span className="text-zinc-50 font-semibold text-lg tracking-tight">Oryva</span>
         </Link>
 

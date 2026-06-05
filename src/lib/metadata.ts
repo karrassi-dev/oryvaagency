@@ -8,7 +8,7 @@ export const siteConfig = {
   description:
     'Oryva helps businesses generate more customers through web development, SEO, digital marketing, and AI automation.',
   url: BASE_URL,
-  ogImage: `${BASE_URL}/og-image.png`,
+  ogImage: `${BASE_URL}/images/website/og-image.png`,
   links: {
     twitter: 'https://twitter.com/oryvaagency',
     linkedin: 'https://linkedin.com/company/oryvaagency',
