@@ -7,7 +7,7 @@ const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://oryva.agency'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://oryvaagency.com'),
 }
 
 const jsonLd = {
@@ -15,10 +15,10 @@ const jsonLd = {
   '@graph': [
     {
       '@type': 'Organization',
-      '@id': 'https://oryva.agency/#organization',
+      '@id': 'https://oryvaagency.com/#organization',
       name: 'Oryva',
-      url: 'https://oryva.agency',
-      logo: 'https://oryva.agency/logo.png',
+      url: 'https://oryvaagency.com',
+      logo: 'https://oryvaagency.com/logo.png',
       description:
         'Digital growth agency specializing in web development, SEO, digital marketing, and AI automation.',
       contactPoint: {
@@ -33,10 +33,10 @@ const jsonLd = {
     },
     {
       '@type': 'WebSite',
-      '@id': 'https://oryva.agency/#website',
-      url: 'https://oryva.agency',
+      '@id': 'https://oryvaagency.com/#website',
+      url: 'https://oryvaagency.com',
       name: 'Oryva',
-      publisher: { '@id': 'https://oryva.agency/#organization' },
+      publisher: { '@id': 'https://oryvaagency.com/#organization' },
     },
   ],
 }
