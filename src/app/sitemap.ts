@@ -22,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  // Blog posts
+
   const slugs = getAllSlugs()
   for (const slug of slugs) {
     for (const locale of routing.locales) {
