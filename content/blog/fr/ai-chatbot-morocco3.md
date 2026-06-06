@@ -5,7 +5,7 @@ description: "Avec l'essor fulgurant de la technologie numérique au Maroc, le c
 date: "2026-06-06"
 author: "Oryva Team"
 category: "SEO"
-coverImage: "https://image.pollinations.ai/prompt/Professional%20blog%20cover%20image%20for%20AI%20chatbot%20Morocco%2C%20Moroccan%20digital%20marketing%20agency%2C%20modern%20clean%20professional%20design%2C%20no%20text?width=1536&height=1024&nologo=true&enhance=true"
+coverImage: "https://picsum.photos/seed/ai-chatbot-morocco3/1200/630"
 keywords: ["SEO Maroc","entreprise marocaine","marketing digital maroc"]
 readingTime: 8
 ---

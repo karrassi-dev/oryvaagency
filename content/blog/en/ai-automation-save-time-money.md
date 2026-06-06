@@ -5,7 +5,7 @@ description: "AI automation isn't just for tech giants. Discover how small and m
 date: "2026-02-18"
 author: "Oryva Team"
 category: "AI Automation"
-coverImage: "/images/blog/ai-automation-business-time-money-savings-morocco.webp   "
+coverImage: "/images/blog/ai-automation-business-time-money-savings-morocco.webp"
 keywords: ["AI automation business", "automatisation ia entreprise", "save time AI Morocco", "business automation tools 2026", "AI chatbot morocco"]
 readingTime: 6
 ---

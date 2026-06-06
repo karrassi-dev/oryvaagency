@@ -5,7 +5,7 @@ description: "شات بوت ذكاء اصطناعي المغرب أصبح أدا
 date: "2026-06-06"
 author: "Oryva Team"
 category: "SEO"
-coverImage: "https://image.pollinations.ai/prompt/Professional%20blog%20cover%20image%20for%20AI%20chatbot%20Morocco%2C%20Moroccan%20digital%20marketing%20agency%2C%20modern%20clean%20professional%20design%2C%20no%20text?width=1536&height=1024&nologo=true&enhance=true"
+coverImage: "https://picsum.photos/seed/ai-chatbot-morocco-new2/1200/630"
 keywords: ["SEO المغرب","شركات مغربية","تسويق رقمي المغرب"]
 readingTime: 8
 ---
