@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+export const maxDuration = 60
+
 const localeContent = z.object({
   title:       z.string().min(5).max(200),
   description: z.string().min(10).max(500),
@@ -11,19 +13,19 @@ const localeContent = z.object({
 })
 
 const schema = z.object({
-  slug:        z.string().min(3).max(100).regex(/^[a-z0-9-]+$/, 'Slug must be lowercase letters, numbers and hyphens only'),
-  category:    z.enum(['Web Development', 'SEO', 'Digital Marketing', 'AI Automation']),
-  coverImage:  z.string().default(''),
-  en:          localeContent,
-  fr:          localeContent,
-  ar:          localeContent,
+  slug:       z.string().min(3).max(100).regex(/^[a-z0-9-]+$/, 'Slug must be lowercase letters, numbers and hyphens only'),
+  category:   z.enum(['Web Development', 'SEO', 'Digital Marketing', 'AI Automation']),
+  coverImage: z.string().default(''),
+  en:         localeContent,
+  fr:         localeContent,
+  ar:         localeContent,
 })
 
 const CATEGORY_MAP: Record<string, Record<string, string>> = {
-  'Web Development':  { en: 'Web Development',  fr: 'Développement Web',    ar: 'تطوير الويب' },
-  'SEO':              { en: 'SEO',               fr: 'SEO',                  ar: 'SEO' },
-  'Digital Marketing':{ en: 'Digital Marketing', fr: 'Marketing Digital',    ar: 'التسويق الرقمي' },
-  'AI Automation':    { en: 'AI Automation',     fr: 'Automatisation IA',    ar: 'أتمتة الذكاء الاصطناعي' },
+  'Web Development':   { en: 'Web Development',  fr: 'Développement Web',   ar: 'تطوير الويب' },
+  'SEO':               { en: 'SEO',              fr: 'SEO',                  ar: 'SEO' },
+  'Digital Marketing': { en: 'Digital Marketing', fr: 'Marketing Digital',   ar: 'التسويق الرقمي' },
+  'AI Automation':     { en: 'AI Automation',     fr: 'Automatisation IA',   ar: 'أتمتة الذكاء الاصطناعي' },
 }
 
 function buildMarkdown(
@@ -33,9 +35,9 @@ function buildMarkdown(
   category: string,
   coverImage: string,
 ): string {
-  const date            = new Date().toISOString().split('T')[0]
-  const localCategory   = CATEGORY_MAP[category]?.[locale] ?? category
-  const keywords        = JSON.stringify(data.keywords)
+  const date          = new Date().toISOString().split('T')[0]
+  const localCategory = CATEGORY_MAP[category]?.[locale] ?? category
+  const keywords      = JSON.stringify(data.keywords)
 
   return `---
 title: "${data.title.replace(/"/g, '\\"')}"
@@ -55,14 +57,21 @@ ${data.content}
 
 async function pushToGitHub(slug: string, locale: string, content: string): Promise<void> {
   const token = process.env.GITHUB_TOKEN
-  const repo  = process.env.GITHUB_REPO ?? 'karrassi-dev/oryvaagency'
-  const path  = `content/blog/${locale}/${slug}.md`
-  const url   = `https://api.github.com/repos/${repo}/contents/${path}`
+  if (!token) throw new Error('GITHUB_TOKEN is not set in environment variables')
 
+  const repo = process.env.GITHUB_REPO ?? 'karrassi-dev/oryvaagency'
+  const path = `content/blog/${locale}/${slug}.md`
+  const url  = `https://api.github.com/repos/${repo}/contents/${path}`
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    Accept:        'application/vnd.github+json',
+    'Content-Type':'application/json',
+  }
+
+  // Check if file already exists (to get sha for update)
   let sha: string | undefined
-  const existing = await fetch(url, {
-    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' },
-  })
+  const existing = await fetch(url, { headers })
   if (existing.ok) {
     const d = await existing.json()
     sha = d.sha
@@ -75,19 +84,11 @@ async function pushToGitHub(slug: string, locale: string, content: string): Prom
   }
   if (sha) body.sha = sha
 
-  const res = await fetch(url, {
-    method:  'PUT',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept:        'application/vnd.github+json',
-      'Content-Type':'application/json',
-    },
-    body: JSON.stringify(body),
-  })
+  const res = await fetch(url, { method: 'PUT', headers, body: JSON.stringify(body) })
 
   if (!res.ok) {
     const err = await res.json()
-    throw new Error(`GitHub error (${locale}): ${JSON.stringify(err)}`)
+    throw new Error(`GitHub push failed (${locale}): ${JSON.stringify(err)}`)
   }
 }
 
@@ -98,48 +99,66 @@ async function triggerDeploy(): Promise<void> {
 }
 
 export async function POST(req: NextRequest) {
-  // Auth
+  // ── Auth ────────────────────────────────────────────────────────────────
   const authHeader = req.headers.get('authorization') ?? ''
-  const token = authHeader.replace('Bearer ', '').trim()
+  const token      = authHeader.replace('Bearer ', '').trim()
+
+  if (!process.env.BLOG_API_KEY) {
+    console.error('[blog/create] BLOG_API_KEY not set')
+    return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 })
+  }
   if (!token || token !== process.env.BLOG_API_KEY) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  // ── Parse body ──────────────────────────────────────────────────────────
+  let rawBody: unknown
   try {
-    const body   = await req.json()
-    const parsed = schema.safeParse(body)
+    rawBody = await req.json()
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
+  }
 
-    if (!parsed.success) {
-      return NextResponse.json(
-        { error: 'Invalid input', details: parsed.error.flatten() },
-        { status: 400 },
-      )
-    }
+  // ── Validate ────────────────────────────────────────────────────────────
+  const parsed = schema.safeParse(rawBody)
+  if (!parsed.success) {
+    const details = parsed.error.flatten()
+    console.error('[blog/create] Validation failed:', JSON.stringify(details))
+    return NextResponse.json(
+      { error: 'Invalid input', details },
+      { status: 400 },
+    )
+  }
 
-    const { slug, category, coverImage, en, fr, ar } = parsed.data
+  const { slug, category, coverImage, en, fr, ar } = parsed.data
 
-    // Push all 3 locales in parallel
+  // ── Push to GitHub ──────────────────────────────────────────────────────
+  try {
     await Promise.all([
       pushToGitHub(slug, 'en', buildMarkdown(slug, 'en', en, category, coverImage)),
       pushToGitHub(slug, 'fr', buildMarkdown(slug, 'fr', fr, category, coverImage)),
       pushToGitHub(slug, 'ar', buildMarkdown(slug, 'ar', ar, category, coverImage)),
     ])
-
-    // One deploy for all 3
-    await triggerDeploy()
-
-    return NextResponse.json({
-      success: true,
-      slug,
-      urls: {
-        en: `https://oryvaagency.com/blog/${slug}`,
-        fr: `https://oryvaagency.com/fr/blog/${slug}`,
-        ar: `https://oryvaagency.com/ar/blog/${slug}`,
-      },
-    }, { status: 201 })
-
   } catch (err) {
-    console.error('[blog/create]', err)
-    return NextResponse.json({ error: 'Failed to create post' }, { status: 500 })
+    const message = err instanceof Error ? err.message : String(err)
+    console.error('[blog/create] GitHub error:', message)
+    return NextResponse.json(
+      { error: 'Failed to push to GitHub', details: message },
+      { status: 500 },
+    )
   }
+
+  // ── Trigger deploy ──────────────────────────────────────────────────────
+  await triggerDeploy()
+
+  return NextResponse.json({
+    success: true,
+    slug,
+    message: 'Blog post created',
+    urls: {
+      en: `https://oryvaagency.com/blog/${slug}`,
+      fr: `https://oryvaagency.com/fr/blog/${slug}`,
+      ar: `https://oryvaagency.com/ar/blog/${slug}`,
+    },
+  }, { status: 201 })
 }
