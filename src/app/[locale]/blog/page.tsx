@@ -4,12 +4,15 @@ import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { getBlogPosts, getCategories } from '@/lib/blog'
 import { BlogCard } from '@/components/blog/BlogCard'
 import { BlogFilters } from '@/components/blog/BlogFilters'
+import { BlogPagination } from '@/components/blog/BlogPagination'
 import { buildMetadata, siteConfig } from '@/lib/metadata'
 import { routing } from '@/i18n/routing'
 
+const POSTS_PER_PAGE = 9
+
 type Props = {
   params: Promise<{ locale: string }>
-  searchParams: Promise<{ q?: string; category?: string }>
+  searchParams: Promise<{ q?: string; category?: string; page?: string }>
 }
 
 export function generateStaticParams() {
@@ -39,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPage({ params, searchParams }: Props) {
   const { locale } = await params
-  const { q = '', category = '' } = await searchParams
+  const { q = '', category = '', page: pageParam = '1' } = await searchParams
   setRequestLocale(locale)
 
   const t = await getTranslations({ locale, namespace: 'Blog' })
@@ -51,6 +54,11 @@ export default async function BlogPage({ params, searchParams }: Props) {
     const matchCat = !category || post.category === category
     return matchQ && matchCat
   })
+
+  const totalPosts = filtered.length
+  const totalPages = Math.max(1, Math.ceil(totalPosts / POSTS_PER_PAGE))
+  const currentPage = Math.min(Math.max(1, parseInt(pageParam, 10) || 1), totalPages)
+  const paginated = filtered.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE)
 
   return (
     <>
@@ -87,21 +95,34 @@ export default async function BlogPage({ params, searchParams }: Props) {
             />
           </Suspense>
 
-          {filtered.length === 0 ? (
+          {totalPosts === 0 ? (
             <div className="text-center py-24">
               <p className="text-zinc-500 text-lg">{t('noResults')}</p>
             </div>
           ) : (
-            <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((post) => (
-                <BlogCard
-                  key={post.slug}
-                  post={post}
-                  readMoreLabel={t('readMore')}
-                  minReadLabel={t('minRead')}
+            <>
+              <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {paginated.map((post) => (
+                  <BlogCard
+                    key={post.slug}
+                    post={post}
+                    readMoreLabel={t('readMore')}
+                    minReadLabel={t('minRead')}
+                  />
+                ))}
+              </div>
+
+              <Suspense>
+                <BlogPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalPosts={totalPosts}
+                  postsPerPage={POSTS_PER_PAGE}
+                  prevLabel={t('paginationPrev')}
+                  nextLabel={t('paginationNext')}
                 />
-              ))}
-            </div>
+              </Suspense>
+            </>
           )}
         </div>
       </section>

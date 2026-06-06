@@ -251,7 +251,9 @@
     "copied": "تم النسخ!",
     "previousPost": "السابق",
     "nextPost": "التالي",
-    "relatedPosts": "مقالات ذات صلة"
+    "relatedPosts": "مقالات ذات صلة",
+    "paginationPrev": "السابق",
+    "paginationNext": "التالي"
   },
   "ContactForm": {
     "nameLabel": "الاسم الكامل",

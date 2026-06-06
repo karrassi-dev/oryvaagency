@@ -251,7 +251,9 @@
     "copied": "Copied!",
     "previousPost": "Previous",
     "nextPost": "Next",
-    "relatedPosts": "Related Articles"
+    "relatedPosts": "Related Articles",
+    "paginationPrev": "Previous",
+    "paginationNext": "Next"
   },
   "ContactForm": {
     "nameLabel": "Full Name",

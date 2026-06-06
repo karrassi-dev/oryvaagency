@@ -26,6 +26,8 @@ export function BlogFilters({ categories, searchPlaceholder, allLabel }: Props) 
       } else {
         params.delete(key)
       }
+      // Any filter change resets to page 1
+      params.delete('page')
       router.push(`${pathname}?${params.toString()}`, { scroll: false })
     },
     [pathname, router, searchParams]
