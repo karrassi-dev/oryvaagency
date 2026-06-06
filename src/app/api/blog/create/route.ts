@@ -34,7 +34,6 @@ const BAD_PATTERNS = [
   'please provide the actual subject',
   'please provide the actual keyword',
   'it seems like you',
-  'i\'m sorry',
   "i'm sorry",
   '{{',
   'placeholder',
@@ -44,8 +43,11 @@ const BAD_PATTERNS = [
 function assertContent(content: string, field: string) {
   if (!content || content.trim().length < 100)
     throw new Error(`${field}: content is empty or too short`)
+  // Only scan the opening 500 chars — model refusals appear at the start,
+  // not buried in article body (e.g. chatbot dialogue examples say "I'm sorry")
+  const intro = content.slice(0, 500).toLowerCase()
   for (const p of BAD_PATTERNS)
-    if (content.toLowerCase().includes(p.toLowerCase()))
+    if (intro.includes(p.toLowerCase()))
       throw new Error(`${field}: content contains invalid text "${p}"`)
 }
 
