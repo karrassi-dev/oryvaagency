@@ -53,17 +53,23 @@ function assertContent(content: string, field: string) {
 
 // ── Image download → GitHub ───────────────────────────────────────────────────
 async function downloadImage(url: string): Promise<Buffer | null> {
-  try {
-    const ctrl = new AbortController()
-    const timer = setTimeout(() => ctrl.abort(), 25_000)
-    const res = await fetch(url, { signal: ctrl.signal })
-    clearTimeout(timer)
-    if (!res.ok) return null
-    const buf = await res.arrayBuffer()
-    return Buffer.from(buf)
-  } catch {
-    return null
+  // Pollinations generates images on first request — retry once if the first
+  // attempt is slow, to maximise the chance of uploading to GitHub.
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const ctrl = new AbortController()
+      // 20s per attempt; two attempts fit inside the 60s function limit
+      const timer = setTimeout(() => ctrl.abort(), 20_000)
+      const res = await fetch(url, { signal: ctrl.signal })
+      clearTimeout(timer)
+      if (!res.ok) return null
+      const buf = await res.arrayBuffer()
+      if (buf.byteLength > 1000) return Buffer.from(buf)
+    } catch {
+      // timeout or network error — try once more then give up
+    }
   }
+  return null
 }
 
 async function uploadImageToGitHub(
