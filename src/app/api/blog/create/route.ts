@@ -215,13 +215,11 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Push markdown files
+  // Push markdown files sequentially — parallel pushes race on branch HEAD and cause 409s
   try {
-    await Promise.all([
-      pushToGitHub(slug, 'en', buildMarkdown(slug, 'en', en, category, coverImage), token, repo),
-      pushToGitHub(slug, 'fr', buildMarkdown(slug, 'fr', fr, category, coverImage), token, repo),
-      pushToGitHub(slug, 'ar', buildMarkdown(slug, 'ar', ar, category, coverImage), token, repo),
-    ])
+    await pushToGitHub(slug, 'en', buildMarkdown(slug, 'en', en, category, coverImage), token, repo)
+    await pushToGitHub(slug, 'fr', buildMarkdown(slug, 'fr', fr, category, coverImage), token, repo)
+    await pushToGitHub(slug, 'ar', buildMarkdown(slug, 'ar', ar, category, coverImage), token, repo)
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     console.error('[blog/create] GitHub error:', msg)
