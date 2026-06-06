@@ -35,6 +35,14 @@ const securityHeaders = [
 ]
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'image.pollinations.ai',
+      },
+    ],
+  },
   async headers() {
     return [
       {
